@@ -8,15 +8,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
-import db from "../data/db.json";
 import {
   Cliente,
   Produto,
   tipoProduto,
   ParteDoProduto,
-  Agenda,
+  tipoDaParteDoProduto,
 } from "../utils/types";
+import db from "../data/db.json";
 
 const tipoProdutos: tipoProduto[] = [
   "jaleco",
@@ -31,6 +30,14 @@ const tipoProdutos: tipoProduto[] = [
   "outros",
 ];
 
+const partesProduto: tipoDaParteDoProduto[] = [
+  "Manga Esquerda",
+  "Manga Direita",
+  "Costas",
+  "Peito Esquerdo",
+  "Peito Direito",
+];
+
 const CriarAgendaComponent: React.FC = () => {
   const [dataInicio, setDataInicio] = useState<string>(
     new Date().toISOString().split("T")[0]
@@ -41,30 +48,47 @@ const CriarAgendaComponent: React.FC = () => {
   const [dataFim, setDataFim] = useState<string | null>(null);
 
   const [clientes, setClientes] = useState<Cliente[]>([]);
-  const [tempTipoProduto, setTempTipoProduto] = useState<tipoProduto | null>(
-    null
-  );
-  const [tempCliente, setTempCliente] = useState<Cliente | null>(null);
-
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [novoProduto, setNovoProduto] = useState<Produto>({
     client: null,
-    type: tempTipoProduto,
+    type: tipoProdutos[0],
     items: [],
+  });
+
+  const [novoSubitem, setNovoSubitem] = useState<ParteDoProduto>({
+    tipoDaParte: partesProduto[0],
+    bordado: "",
   });
 
   const handleAddProduto = () => {
     setProdutos([...produtos, novoProduto]);
     setNovoProduto({
-      client: tempCliente,
+      client: null,
       type: tipoProdutos[0],
       items: [],
+    });
+  };
+
+  const handleAddSubitem = (produtoIndex: number) => {
+    const updatedProdutos = [...produtos];
+    updatedProdutos[produtoIndex].items.push(novoSubitem);
+    setProdutos(updatedProdutos);
+    setNovoSubitem({
+      tipoDaParte: partesProduto[0],
+      bordado: "",
     });
   };
 
   const handleInputChange = (field: keyof Produto, value: any) => {
     setNovoProduto({
       ...novoProduto,
+      [field]: value,
+    });
+  };
+
+  const handleSubitemChange = (field: keyof ParteDoProduto, value: any) => {
+    setNovoSubitem({
+      ...novoSubitem,
       [field]: value,
     });
   };
@@ -165,7 +189,91 @@ const CriarAgendaComponent: React.FC = () => {
             <Box key={index} sx={{ mt: 2 }}>
               <Typography>Cliente: {produto?.client?.name}</Typography>
               <Typography>Tipo: {produto.type}</Typography>
-              <Typography>Itens: {produto.items.length}</Typography>
+
+              <Typography>Itens:</Typography>
+              {produto.items.length > 0 ? (
+                produto.items.map((item, idx) => (
+                  <Box key={idx} sx={{ ml: 2 }}>
+                    <Typography>Parte: {item.tipoDaParte}</Typography>
+                    <Typography>Bordado: {item.bordado}</Typography>
+                    {item.bordado === "curso" && (
+                      <>
+                        <Typography>Curso: {item.nomeDoCurso}</Typography>
+                        <Typography>
+                          Faculdade: {item.nomeDaFaculdade}
+                        </Typography>
+                      </>
+                    )}
+                  </Box>
+                ))
+              ) : (
+                <Typography>Nenhum subitem adicionado</Typography>
+              )}
+
+              {/* Adicionar novo subitem */}
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="subtitle1">Adicionar Subitem:</Typography>
+                <FormControl fullWidth margin="normal">
+                  <InputLabel>Tipo da Parte</InputLabel>
+                  <NativeSelect
+                    value={novoSubitem.tipoDaParte}
+                    onChange={(e) =>
+                      handleSubitemChange(
+                        "tipoDaParte",
+                        e.target.value as tipoDaParteDoProduto
+                      )
+                    }
+                  >
+                    {partesProduto.map((parte) => (
+                      <option key={parte} value={parte}>
+                        {parte}
+                      </option>
+                    ))}
+                  </NativeSelect>
+                </FormControl>
+
+                <TextField
+                  label="Bordado"
+                  value={novoSubitem.bordado}
+                  onChange={(e) =>
+                    handleSubitemChange("bordado", e.target.value)
+                  }
+                  fullWidth
+                  margin="normal"
+                />
+
+                {novoSubitem.bordado === "curso" && (
+                  <>
+                    <TextField
+                      label="Nome do Curso"
+                      value={novoSubitem.nomeDoCurso || ""}
+                      onChange={(e) =>
+                        handleSubitemChange("nomeDoCurso", e.target.value)
+                      }
+                      fullWidth
+                      margin="normal"
+                    />
+                    <TextField
+                      label="Nome da Faculdade"
+                      value={novoSubitem.nomeDaFaculdade || ""}
+                      onChange={(e) =>
+                        handleSubitemChange("nomeDaFaculdade", e.target.value)
+                      }
+                      fullWidth
+                      margin="normal"
+                    />
+                  </>
+                )}
+
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleAddSubitem(index)}
+                  sx={{ mt: 2 }}
+                >
+                  Adicionar Subitem
+                </Button>
+              </Box>
             </Box>
           ))
         ) : (
