@@ -75,38 +75,40 @@ const CriarAgendaComponent: React.FC = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h5" gutterBottom>
-        Criar Nova Agenda
+      <Typography variant="h5" textAlign={"center"} gutterBottom>
+        Novo planejamento
       </Typography>
 
       {/* Seleção de datas */}
-      <TextField
-        label="Data de Início"
-        type="date"
-        value={dataInicio}
-        onChange={(e) => setDataInicio(e.target.value)}
-        fullWidth
-        margin="normal"
-        InputLabelProps={{ shrink: true }}
-      />
-      <TextField
-        label="Data Prevista de Fim"
-        type="date"
-        value={dataPrevistaFim}
-        onChange={(e) => setDataPrevistaFim(e.target.value)}
-        fullWidth
-        margin="normal"
-        InputLabelProps={{ shrink: true }}
-      />
-      <TextField
-        label="Data de Fim"
-        type="date"
-        value={dataFim || ""}
-        onChange={(e) => setDataFim(e.target.value || null)}
-        fullWidth
-        margin="normal"
-        InputLabelProps={{ shrink: true }}
-      />
+      <div className="flex  gap-2 w-full">
+        <TextField
+          label="Data de Início"
+          type="date"
+          value={dataInicio}
+          onChange={(e) => setDataInicio(e.target.value)}
+          fullWidth
+          margin="normal"
+          InputLabelProps={{ shrink: true }}
+        />
+        <TextField
+          label="Data Prevista de Fim"
+          type="date"
+          value={dataPrevistaFim}
+          onChange={(e) => setDataPrevistaFim(e.target.value)}
+          fullWidth
+          margin="normal"
+          InputLabelProps={{ shrink: true }}
+        />
+        <TextField
+          label="Data de Fim"
+          type="date"
+          value={dataFim || ""}
+          onChange={(e) => setDataFim(e.target.value || null)}
+          fullWidth
+          margin="normal"
+          InputLabelProps={{ shrink: true }}
+        />
+      </div>
 
       {/* Seleção do cliente */}
       <FormControl fullWidth margin="normal">
@@ -120,6 +122,7 @@ const CriarAgendaComponent: React.FC = () => {
             )
           }
         >
+          <option value={undefined}>--</option>
           {clientes.map((cliente) => (
             <option key={cliente.name} value={cliente.name}>
               {cliente.name}
@@ -137,6 +140,7 @@ const CriarAgendaComponent: React.FC = () => {
             handleInputChange("type", e.target.value as tipoProduto)
           }
         >
+          <option value={undefined}>--</option>
           {tipoProdutos.map((tipo) => (
             <option key={tipo} value={tipo}>
               {tipo}
