@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+
 import {
   Box,
   Button,
@@ -16,6 +18,8 @@ import {
   tipoDaParteDoProduto,
 } from "../utils/types";
 import db from "../data/db.json";
+import CustomModal from "./CustomModal";
+import TabelaProduto from "./TabelaProduto";
 
 const tipoProdutos: tipoProduto[] = [
   "jaleco",
@@ -39,6 +43,8 @@ const partesProduto: tipoDaParteDoProduto[] = [
 ];
 
 const CriarAgendaComponent: React.FC = () => {
+  const [addSubModa, setAddSubModal] = useState(false);
+
   const [dataInicio, setDataInicio] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
@@ -50,12 +56,15 @@ const CriarAgendaComponent: React.FC = () => {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [novoProduto, setNovoProduto] = useState<Produto>({
+    id: uuidv4(),
     client: null,
     type: tipoProdutos[0],
     items: [],
+    nomePessoa: "",
   });
 
   const [novoSubitem, setNovoSubitem] = useState<ParteDoProduto>({
+    id: uuidv4(),
     tipoDaParte: partesProduto[0],
     bordado: "",
   });
@@ -63,9 +72,11 @@ const CriarAgendaComponent: React.FC = () => {
   const handleAddProduto = () => {
     setProdutos([...produtos, novoProduto]);
     setNovoProduto({
+      id: uuidv4(),
       client: null,
       type: tipoProdutos[0],
       items: [],
+      nomePessoa: "",
     });
   };
 
@@ -74,6 +85,7 @@ const CriarAgendaComponent: React.FC = () => {
     updatedProdutos[produtoIndex].items.push(novoSubitem);
     setProdutos(updatedProdutos);
     setNovoSubitem({
+      id: uuidv4(),
       tipoDaParte: partesProduto[0],
       bordado: "",
     });
@@ -93,12 +105,78 @@ const CriarAgendaComponent: React.FC = () => {
     });
   };
 
+  const handleRemoveProduto = (id: string) => {
+    setProdutos(produtos.filter((produto) => produto.id !== id));
+  };
+
   useEffect(() => {
     setClientes(db.clientes as Cliente[]);
   }, []);
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box
+      sx={{
+        p: 3,
+        textAlign: "center",
+      }}
+    >
+      <CustomModal
+        open={addSubModa}
+        handleClose={() => setAddSubModal(false)}
+        handleOpen={() => setAddSubModal(true)}
+      >
+        <>
+          <Typography variant="subtitle1">Adicionar Subitem:</Typography>
+          <FormControl fullWidth margin="normal">
+            <InputLabel>Tipo da Parte</InputLabel>
+            <NativeSelect
+              value={novoSubitem.tipoDaParte}
+              onChange={(e) =>
+                handleSubitemChange(
+                  "tipoDaParte",
+                  e.target.value as tipoDaParteDoProduto
+                )
+              }
+            >
+              {partesProduto.map((parte) => (
+                <option key={parte} value={parte}>
+                  {parte}
+                </option>
+              ))}
+            </NativeSelect>
+          </FormControl>
+          <TextField
+            label="Bordado"
+            value={novoSubitem.bordado}
+            onChange={(e) => handleSubitemChange("bordado", e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+          {novoSubitem.bordado === "curso" && (
+            <div className="flex gap-2">
+              <TextField
+                label="Nome do Curso"
+                value={novoSubitem.nomeDoCurso || ""}
+                onChange={(e) =>
+                  handleSubitemChange("nomeDoCurso", e.target.value)
+                }
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Nome da Faculdade"
+                value={novoSubitem.nomeDaFaculdade || ""}
+                onChange={(e) =>
+                  handleSubitemChange("nomeDaFaculdade", e.target.value)
+                }
+                fullWidth
+                margin="normal"
+              />
+            </div>
+          )}
+        </>
+      </CustomModal>
+
       <Typography variant="h5" textAlign={"center"} gutterBottom>
         Novo planejamento
       </Typography>
@@ -134,44 +212,56 @@ const CriarAgendaComponent: React.FC = () => {
         />
       </div>
 
-      {/* Seleção do cliente */}
-      <FormControl fullWidth margin="normal">
-        <InputLabel>Cliente</InputLabel>
-        <NativeSelect
-          value={novoProduto?.client?.name}
-          onChange={(e) =>
-            handleInputChange(
-              "client",
-              clientes.find((cliente) => cliente.name === e.target.value)
-            )
-          }
-        >
-          <option value={undefined}>--</option>
-          {clientes.map((cliente) => (
-            <option key={cliente.name} value={cliente.name}>
-              {cliente.name}
-            </option>
-          ))}
-        </NativeSelect>
-      </FormControl>
+      {/* Cliente e tipo de produto */}
+      <div className="flex gap-2">
+        {/* Seleção do cliente */}
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Cliente</InputLabel>
+          <NativeSelect
+            value={novoProduto?.client?.name}
+            onChange={(e) =>
+              handleInputChange(
+                "client",
+                clientes.find((cliente) => cliente.name === e.target.value)
+              )
+            }
+          >
+            <option value={undefined}>--</option>
+            {clientes.map((cliente) => (
+              <option key={cliente.name} value={cliente.name}>
+                {cliente.name}
+              </option>
+            ))}
+          </NativeSelect>
+        </FormControl>
 
-      {/* Seleção do tipo de produto */}
-      <FormControl fullWidth margin="normal">
-        <InputLabel>Tipo de Produto</InputLabel>
-        <NativeSelect
-          value={novoProduto.type}
-          onChange={(e) =>
-            handleInputChange("type", e.target.value as tipoProduto)
-          }
-        >
-          <option value={undefined}>--</option>
-          {tipoProdutos.map((tipo) => (
-            <option key={tipo} value={tipo}>
-              {tipo}
-            </option>
-          ))}
-        </NativeSelect>
-      </FormControl>
+        <TextField
+          label="Nome cliente"
+          variant="standard"
+          value={novoProduto.nomePessoa}
+          onChange={(e) => handleInputChange("nomePessoa", e.target.value)}
+          fullWidth
+          margin="normal"
+        />
+
+        {/* Seleção do tipo de produto */}
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Tipo de Produto</InputLabel>
+          <NativeSelect
+            value={novoProduto.type}
+            onChange={(e) =>
+              handleInputChange("type", e.target.value as tipoProduto)
+            }
+          >
+            <option value={undefined}>--</option>
+            {tipoProdutos.map((tipo) => (
+              <option key={tipo} value={tipo}>
+                {tipo}
+              </option>
+            ))}
+          </NativeSelect>
+        </FormControl>
+      </div>
 
       <Button
         variant="contained"
@@ -183,99 +273,9 @@ const CriarAgendaComponent: React.FC = () => {
       </Button>
 
       <Box sx={{ mt: 3 }}>
-        <Typography variant="h6">Produtos Adicionados:</Typography>
+        {/* <Typography variant="h6">Items vendidos:</Typography> */}
         {produtos.length > 0 ? (
-          produtos.map((produto, index) => (
-            <Box key={index} sx={{ mt: 2 }}>
-              <Typography>Cliente: {produto?.client?.name}</Typography>
-              <Typography>Tipo: {produto.type}</Typography>
-
-              <Typography>Itens:</Typography>
-              {produto.items.length > 0 ? (
-                produto.items.map((item, idx) => (
-                  <Box key={idx} sx={{ ml: 2 }}>
-                    <Typography>Parte: {item.tipoDaParte}</Typography>
-                    <Typography>Bordado: {item.bordado}</Typography>
-                    {item.bordado === "curso" && (
-                      <>
-                        <Typography>Curso: {item.nomeDoCurso}</Typography>
-                        <Typography>
-                          Faculdade: {item.nomeDaFaculdade}
-                        </Typography>
-                      </>
-                    )}
-                  </Box>
-                ))
-              ) : (
-                <Typography>Nenhum subitem adicionado</Typography>
-              )}
-
-              {/* Adicionar novo subitem */}
-              <Box sx={{ mt: 2 }}>
-                <Typography variant="subtitle1">Adicionar Subitem:</Typography>
-                <FormControl fullWidth margin="normal">
-                  <InputLabel>Tipo da Parte</InputLabel>
-                  <NativeSelect
-                    value={novoSubitem.tipoDaParte}
-                    onChange={(e) =>
-                      handleSubitemChange(
-                        "tipoDaParte",
-                        e.target.value as tipoDaParteDoProduto
-                      )
-                    }
-                  >
-                    {partesProduto.map((parte) => (
-                      <option key={parte} value={parte}>
-                        {parte}
-                      </option>
-                    ))}
-                  </NativeSelect>
-                </FormControl>
-
-                <TextField
-                  label="Bordado"
-                  value={novoSubitem.bordado}
-                  onChange={(e) =>
-                    handleSubitemChange("bordado", e.target.value)
-                  }
-                  fullWidth
-                  margin="normal"
-                />
-
-                {novoSubitem.bordado === "curso" && (
-                  <>
-                    <TextField
-                      label="Nome do Curso"
-                      value={novoSubitem.nomeDoCurso || ""}
-                      onChange={(e) =>
-                        handleSubitemChange("nomeDoCurso", e.target.value)
-                      }
-                      fullWidth
-                      margin="normal"
-                    />
-                    <TextField
-                      label="Nome da Faculdade"
-                      value={novoSubitem.nomeDaFaculdade || ""}
-                      onChange={(e) =>
-                        handleSubitemChange("nomeDaFaculdade", e.target.value)
-                      }
-                      fullWidth
-                      margin="normal"
-                    />
-                  </>
-                )}
-
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => handleAddSubitem(index)}
-                  sx={{ mt: 2 }}
-                >
-                  Adicionar Subitem
-                </Button>
-              </Box>
-            </Box>
-          ))
+          <TabelaProduto products={produtos} onRemove={handleRemoveProduto} />
         ) : (
           <Typography>Nenhum produto adicionado</Typography>
         )}

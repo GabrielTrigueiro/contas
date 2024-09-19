@@ -24,6 +24,7 @@ export type tipoDaParteDoProduto =
   | "Peito Direito";
 
 export interface ParteDoProduto {
+  id: string;
   tipoDaParte: tipoDaParteDoProduto;
   bordado: string;
   nomeDoCurso?: string;
@@ -32,9 +33,11 @@ export interface ParteDoProduto {
 }
 
 export interface Produto {
+  id: string;
   client: Cliente | null;
   type: tipoProduto | null;
   items: ParteDoProduto[];
+  nomePessoa: string;
 }
 
 export interface Agenda {
