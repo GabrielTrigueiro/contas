@@ -2,17 +2,20 @@ import { useState, useEffect } from "react";
 import { Agenda } from "../utils/types";
 import { formatDateToDDMMYYYY } from "../utils/formatData";
 import { formatCurrency } from "../utils/formarCurrency";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   agenda: Agenda;
 }
 
-const AgendaComponent = ({ agenda }: Props) => {
+const CardDeServico = ({ agenda }: Props) => {
   const [tempAgenda, setTempAgenda] = useState<Agenda | null>(agenda);
+  const navigate = useNavigate(); // Hook para redirecionar
 
-  // calcula o valor total
+  // Calcula o valor total
   const total = agenda.produtos.reduce(
-    (acc, curr) => acc + curr.items.reduce((acc, curr) => acc + curr.preco!, 0),
+    (acc, curr) =>
+      acc + curr.items.reduce((acc, curr) => acc + (curr.preco || 0), 0),
     0
   );
 
@@ -42,10 +45,15 @@ const AgendaComponent = ({ agenda }: Props) => {
 
   useEffect(() => {
     setTempAgenda(agenda);
-  }, []);
+  }, [agenda]);
+
+  const handleClick = () => {
+    navigate(`/historico/${agenda.id}`);
+  };
 
   return (
     <div
+      onClick={handleClick}
       className={`rounded-lg bg-white p-4 shadow-md border-2 ${borderColor} flex gap-2 justify-between hover:bg-slate-100 cursor-pointer hover:shadow-lg`}
     >
       <p>{formatCurrency(total)}</p>
@@ -54,35 +62,8 @@ const AgendaComponent = ({ agenda }: Props) => {
         {formatDateToDDMMYYYY(agenda.dataPrevistaFim)}
       </p>
       <IndicatorIcon />
-      {/* <h1>Agenda de Produtos</h1>
-
-      <div>
-        <h2>
-          Agenda de {new Date(agenda.dataInicio).toLocaleDateString()} até{" "}
-          {new Date(agenda.dataPrevistaFim).toLocaleDateString()}
-        </h2>
-        <ul>
-          {agenda.produtos.map((produto, prodIndex) => (
-            <li key={prodIndex}>
-              <strong>Cliente:</strong> {produto?.client?.name} (
-              {produto?.client?.tipoCliente})<br />
-              <strong>Produto:</strong> {produto.type}
-              <br />
-              <strong>Partes:</strong>
-              <ul>
-                {produto.items.map((item, itemIndex) => (
-                  <li key={itemIndex}>
-                    <strong>{item.tipoDaParte}:</strong> {item.bordado}{" "}
-                    {item.pronto ? "(Pronto)" : "(Em andamento)"}
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      </div> */}
     </div>
   );
 };
 
-export default AgendaComponent;
+export default CardDeServico;

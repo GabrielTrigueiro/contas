@@ -30,6 +30,7 @@ export interface ParteDoProduto {
   nomeDoCurso?: string;
   nomeDaFaculdade?: string;
   pronto?: boolean;
+  preco?: number;
 }
 
 export interface Produto {
@@ -41,6 +42,7 @@ export interface Produto {
 }
 
 export interface Agenda {
+  id: string;
   dataInicio: string;
   dataPrevistaFim: string;
   dataFim: string | null;

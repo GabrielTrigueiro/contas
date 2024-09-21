@@ -1,30 +1,14 @@
-import { Button } from "@mui/material";
-import AgendaComponent from "./components/AgendaComponent";
-import db from "./data/db.json";
-import { Agenda } from "./utils/types";
-import CustomModal from "./components/CustomModal";
-import { useState } from "react";
-import CriarAgendaComponent from "./components/CriarAgendaComponent";
+import { Navigate, Route, Routes } from "react-router-dom";
+import TelaInicio from "./views/TelaInicio";
+import TelaServico from "./views/TelaServico";
 
 function App() {
-  const [open, setOpen] = useState(false);
-
   return (
-    <div className="App">
-      <Button variant="contained" onClick={() => setOpen(true)}>
-        Criar Agenda
-      </Button>
-      {db.agenda.map((agenda, index) => (
-        <AgendaComponent key={index} agenda={agenda as Agenda} />
-      ))}
-      <CustomModal
-        open={open}
-        handleClose={() => setOpen(false)}
-        handleOpen={() => setOpen(true)}
-      >
-        <CriarAgendaComponent />
-      </CustomModal>
-    </div>
+    <Routes>
+      <Route path="/inicio" element={<TelaInicio />} />
+      <Route path="/historico/:id" element={<TelaServico />} />
+      <Route path="*" element={<Navigate to="/inicio" />} />
+    </Routes>
   );
 }
 

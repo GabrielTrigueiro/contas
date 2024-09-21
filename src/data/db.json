@@ -13,11 +13,13 @@
   ],
   "agenda": [
     {
+      "id": "agenda1",
       "dataInicio": "2024-09-01T09:00:00.000Z",
       "dataPrevistaFim": "2024-09-15T17:00:00.000Z",
       "dataFim": "2024-09-14T16:30:00.000Z",
       "produtos": [
         {
+          "id": "prod1",
           "client": {
             "name": "Tech Solutions LTDA",
             "tipoCliente": "empresa",
@@ -26,18 +28,24 @@
           "type": "jaleco",
           "items": [
             {
+              "id": "item1",
               "tipoDaParte": "Peito Direito",
               "bordado": "Logo da Empresa",
-              "pronto": true
+              "pronto": true,
+              "preco": 150
             },
             {
+              "id": "item2",
               "tipoDaParte": "Manga Direita",
               "bordado": "Nome do Funcionário",
-              "pronto": false
+              "pronto": false,
+              "preco": 50
             }
-          ]
+          ],
+          "nomePessoa": "Carlos Souza"
         },
         {
+          "id": "prod2",
           "client": {
             "name": "João Silva",
             "tipoCliente": "pessoa",
@@ -46,23 +54,28 @@
           "type": "bata",
           "items": [
             {
+              "id": "item3",
               "tipoDaParte": "Peito Esquerdo",
               "bordado": "Nome do Curso",
               "nomeDoCurso": "Medicina",
               "nomeDaFaculdade": "Universidade XYZ",
-              "pronto": false
+              "pronto": false,
+              "preco": 200
             }
-          ]
+          ],
+          "nomePessoa": "João Silva"
         }
       ],
       "emAberto": true
     },
     {
+      "id": "agenda2",
       "dataInicio": "2024-09-10T10:00:00.000Z",
       "dataPrevistaFim": "2024-09-25T17:00:00.000Z",
       "dataFim": null,
       "produtos": [
         {
+          "id": "prod3",
           "client": {
             "name": "Tech Solutions LTDA",
             "tipoCliente": "empresa",
@@ -71,21 +84,26 @@
           "type": "camisa",
           "items": [
             {
+              "id": "item4",
               "tipoDaParte": "Costas",
               "bordado": "Slogan da Empresa",
-              "pronto": false
+              "pronto": false,
+              "preco": 120
             }
-          ]
+          ],
+          "nomePessoa": "Ana Silva"
         }
       ],
       "emAberto": true
     },
     {
+      "id": "agenda3",
       "dataInicio": "2024-09-20T09:00:00.000Z",
       "dataPrevistaFim": "2024-10-05T17:00:00.000Z",
       "dataFim": null,
       "produtos": [
         {
+          "id": "prod4",
           "client": {
             "name": "João Silva",
             "tipoCliente": "pessoa",
@@ -94,26 +112,33 @@
           "type": "blusa",
           "items": [
             {
+              "id": "item5",
               "tipoDaParte": "Manga Esquerda",
               "bordado": "Nome Pessoal",
-              "pronto": true
+              "pronto": true,
+              "preco": 90
             },
             {
+              "id": "item6",
               "tipoDaParte": "Costas",
               "bordado": "Frase Personalizada",
-              "pronto": false
+              "pronto": false,
+              "preco": 130
             }
-          ]
+          ],
+          "nomePessoa": "João Silva"
         }
       ],
       "emAberto": true
     },
     {
+      "id": "agenda4",
       "dataInicio": "2024-09-25T10:00:00.000Z",
       "dataPrevistaFim": "2024-10-10T17:00:00.000Z",
       "dataFim": null,
       "produtos": [
         {
+          "id": "prod5",
           "client": {
             "name": "Tech Solutions LTDA",
             "tipoCliente": "empresa",
@@ -122,21 +147,26 @@
           "type": "patch",
           "items": [
             {
+              "id": "item7",
               "tipoDaParte": "Peito Esquerdo",
               "bordado": "Patch com Logo",
-              "pronto": false
+              "pronto": false,
+              "preco": 40
             }
-          ]
+          ],
+          "nomePessoa": "Carlos Souza"
         }
       ],
       "emAberto": true
     },
     {
+      "id": "agenda5",
       "dataInicio": "2024-10-01T09:30:00.000Z",
       "dataPrevistaFim": "2024-10-15T17:00:00.000Z",
       "dataFim": null,
       "produtos": [
         {
+          "id": "prod6",
           "client": {
             "name": "João Silva",
             "tipoCliente": "pessoa",
@@ -145,21 +175,26 @@
           "type": "coletes",
           "items": [
             {
+              "id": "item8",
               "tipoDaParte": "Peito Direito",
               "bordado": "Nome do Evento",
-              "pronto": true
+              "pronto": true,
+              "preco": 180
             }
-          ]
+          ],
+          "nomePessoa": "João Silva"
         }
       ],
       "emAberto": true
     },
     {
+      "id": "agenda6",
       "dataInicio": "2024-10-05T10:00:00.000Z",
       "dataPrevistaFim": "2024-10-20T17:00:00.000Z",
       "dataFim": null,
       "produtos": [
         {
+          "id": "prod7",
           "client": {
             "name": "Tech Solutions LTDA",
             "tipoCliente": "empresa",
@@ -168,16 +203,21 @@
           "type": "macacao",
           "items": [
             {
+              "id": "item9",
               "tipoDaParte": "Manga Direita",
               "bordado": "Nome do Funcionário",
-              "pronto": false
+              "pronto": false,
+              "preco": 110
             },
             {
+              "id": "item10",
               "tipoDaParte": "Costas",
               "bordado": "Logo da Empresa",
-              "pronto": false
+              "pronto": false,
+              "preco": 220
             }
-          ]
+          ],
+          "nomePessoa": "Ana Silva"
         }
       ],
       "emAberto": true
