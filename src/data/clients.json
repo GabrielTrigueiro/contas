@@ -1,0 +1,24 @@
+{
+  "clients": [
+    {
+      "name": "Empresa Alpha",
+      "type": "empresa",
+      "phone": "1234-5678"
+    },
+    {
+      "name": "João Silva",
+      "type": "pessoa",
+      "phone": "9876-5432"
+    },
+    {
+      "name": "Clínica Beta",
+      "type": "empresa",
+      "phone": "2345-6789"
+    },
+    {
+      "name": "Maria Souza",
+      "type": "pessoa",
+      "phone": "8765-4321"
+    }
+  ]
+}
