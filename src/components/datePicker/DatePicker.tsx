@@ -25,7 +25,7 @@ interface IDataPicker extends IModalProps {
 
 type TDataPicker = Omit<IDataPicker, "children">;
 
-export default function CustomDataPicker(props: Readonly<TDataPicker>) {
+export default function DataPicker(props: Readonly<TDataPicker>) {
   const { isOpen, onClose, onOpen, title, typeOfDatePicker } = props;
 
   return (
@@ -48,24 +48,18 @@ const DatePickerModal = (props: Readonly<TDataPicker>) => {
     typeOfDatePicker,
   } = props;
 
-  const [localInitialDate, setLocalInitialDate] = useState<
-    Dayjs | null | undefined
-  >(propInitialDate);
+  const [initialDate, setLocalInitialDate] = useState<Dayjs | null | undefined>(
+    propInitialDate
+  );
 
   useEffect(() => {
-    if (typeOfDatePicker === "mes" && !localInitialDate) {
+    if (typeOfDatePicker === "mes" && !initialDate) {
       setLocalInitialDate(dayjs().startOf("month"));
     }
-  }, [typeOfDatePicker, localInitialDate]);
-
-  // Atualizar o estado local ao receber novas props
-  useEffect(() => {
-    setLocalInitialDate(propInitialDate);
-  }, [propInitialDate]);
+  }, [typeOfDatePicker, initialDate]);
 
   const handleEnviarClick = () => {
-    // Atualizar o valor no componente pai
-    setInitialDate(localInitialDate);
+    setInitialDate(initialDate);
     onClose();
   };
 
@@ -79,7 +73,7 @@ const DatePickerModal = (props: Readonly<TDataPicker>) => {
                 size={"small"}
                 variant={"standard"}
                 label="Data Inicial"
-                value={localInitialDate}
+                value={initialDate}
                 format="DD/MM/YYYY"
                 onChange={(value) => setLocalInitialDate(value)}
                 minDate={dayjs("1950-01-01")}
@@ -88,7 +82,7 @@ const DatePickerModal = (props: Readonly<TDataPicker>) => {
             </StyledDivTextCalendar>
             <StyledDivCalendar>
               <DateCalendar
-                value={localInitialDate}
+                value={initialDate}
                 onChange={(value) => setLocalInitialDate(value)}
                 minDate={dayjs("1950-01-01")}
                 maxDate={dayjs("2006-12-31")}

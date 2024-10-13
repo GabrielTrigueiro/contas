@@ -4,9 +4,8 @@ export function formatCurrency(numero?: number): string {
   }
 
   // Formatando o número com duas casas decimais
-  const numeroFormatado = numero.toFixed(2);
+  const numeroFormatado = Number(numero).toFixed(2);
 
-  // Substituindo o ponto por vírgula
-  numeroFormatado.replace(".", ",");
-  return `R$ ${numeroFormatado}`;
+  // Substituindo o ponto por vírgula e retornando a string formatada
+  return `R$ ${numeroFormatado.replace(".", ",")}`;
 }

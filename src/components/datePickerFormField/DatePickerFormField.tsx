@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FormControl } from "@mui/material";
+import { FormControl, FormHelperText } from "@mui/material";
 import { LocalizationProvider, DateField } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { getIn } from "formik";
@@ -23,23 +23,23 @@ export default function DatePickerFormField({
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-      <FormControl error={Boolean(getIn(formik.errors, name))} fullWidth>
+      <FormControl fullWidth>
         <DateField
           size="small"
           variant="outlined"
           label={label}
           value={selectedDate}
           format="DD/MM/YYYY"
-          onChange={(event) => {
-            console.log(event);
-            handleDateChange(event);
-          }}
+          onChange={(event) => handleDateChange(event)}
           FormHelperTextProps={{
             style: {
-              margin: "1px 10px -5px ",
+              margin: "1px 10px -5px",
             },
           }}
         />
+        {/* {Boolean(getIn(formik.errors, name)) && (
+          <FormHelperText>{getIn(formik.errors, name)}</FormHelperText>
+        )} */}
       </FormControl>
     </LocalizationProvider>
   );

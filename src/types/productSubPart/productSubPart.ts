@@ -1,6 +1,6 @@
 import { ProductPartType } from "../productPartType/productPartType";
 
-interface Course {
+export interface Course {
   name: string;
   faculty: string;
 }
