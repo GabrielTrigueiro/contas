@@ -1,5 +1,5 @@
 {
-  "name": "contas",
+  "name": "controle",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -29,11 +29,21 @@
     "web-vitals": "^2.1.4",
     "yup": "^1.4.0"
   },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.12",
+    "concurrently": "^8.2.2",
+    "electron": "^31.0.2",
+    "electron-builder": "^24.13.3",
+    "wait-on": "^7.2.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "electron": "wait-on http://localhost:3000 && electron .",
+    "electron-dev": "concurrently \"yarn start\" \"yarn run electron\"",
+    "dist": "yarn build && electron-builder"
   },
   "eslintConfig": {
     "extends": [
@@ -53,9 +63,40 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.12"
+  "main": "public/electron.js",
+  "homepage": "./",
+  "repository": "https://github.com/GabrielTrigueiro/ContasUpdates",
+  "publish": {
+    "provider": "github",
+    "releaseType": "release"
+  },
+  "license": "MIT",
+  "build": {
+    "publish": {
+      "provider": "github",
+      "owner": "GabrielTrigueiro",
+      "repo": "ContasUpdates"
+    },
+    "appId": "com.bitbeelabs.lbs",
+    "win": {
+      "target": "nsis",
+      "icon": "src/images/assets/lbsLogoWindows.ico"
+    },
+    "mac": {
+      "target": "default",
+      "icon": "src/images/assets/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "src/images/assets/linux.png"
+    },
+    "nsis": {
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Controle",
+      "runAfterFinish": true
+    }
   }
 }

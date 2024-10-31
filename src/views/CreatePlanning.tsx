@@ -20,7 +20,6 @@ import { DateField, LocalizationProvider } from "@mui/x-date-pickers";
 
 import DataPicker from "../components/datePicker/DatePicker"; // Ajuste o caminho do DataPicker conforme necessário
 import { Calendar } from "lucide-react";
-import theme from "../core/theme/theme";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 // Definindo o esquema de validação

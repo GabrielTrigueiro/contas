@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Box,
   Button,
-  Modal,
   TextField,
   Typography,
   Table,
@@ -152,7 +151,7 @@ const AddProductModal = ({ open, onClose, onAddProduct }: any) => {
 const AddSubPartModal = ({ open, onClose, onAddSubPart, product }: any) => {
   const [subPart, setSubPart] = React.useState({
     id: uuidv4(),
-    subPart: "", // Subparte começa vazia
+    subPart: "",
     price: 0,
     content: "",
   });
